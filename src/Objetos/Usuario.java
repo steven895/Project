@@ -5,8 +5,6 @@
  */
 package Objetos;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Tago
@@ -14,22 +12,10 @@ import java.util.ArrayList;
 public class Usuario {
     private String id;
     private String password;
-    private ArrayList<Notificacion> notificaciones;
 
     public Usuario(String id, String password) {
         this.id = id;
         this.password = password;
-    }
-    public void addNotificacion(Notificacion noti){
-        notificaciones.add(noti);
-    }
-
-    public ArrayList<Notificacion> getNotificaciones() {
-        return notificaciones;
-    }
-
-    public void setNotificaciones(ArrayList<Notificacion> notificaciones) {
-        this.notificaciones = notificaciones;
     }
 
     public String getId() {

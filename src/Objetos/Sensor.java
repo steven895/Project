@@ -26,23 +26,6 @@ public class Sensor {
     public void addObservacion(Observacion ob){
         this.observaciones.add(ob);
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public ArrayList<Observacion> getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(ArrayList<Observacion> observaciones) {
-        this.observaciones = observaciones;
-    }
-    
     @Override
     public boolean equals(Object obj) {
       if(obj instanceof Sensor){
