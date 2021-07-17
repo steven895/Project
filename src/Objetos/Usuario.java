@@ -5,6 +5,12 @@
  */
 package Objetos;
 
+<<<<<<< HEAD
+import java.util.ArrayList;
+import java.util.Objects;
+
+=======
+>>>>>>> a650824f123749caafce42ca3ec6140d5631b5ca
 /**
  *
  * @author Tago
@@ -32,6 +38,15 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Usuario){
+            Usuario user=(Usuario)obj;
+            if(user.id.equals(this.id))return true;
+        }
+        return false;
     }
     
     
