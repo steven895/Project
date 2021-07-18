@@ -114,7 +114,6 @@ public class ManejoArchivo {
 
             // Lectura del fichero
             String linea;
-            br.readLine();
             while ((linea = br.readLine()) != null) {
                 String [] lista= linea.split(",");
                 Usuario us= new Usuario(lista[0],lista[1]);

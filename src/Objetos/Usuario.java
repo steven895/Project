@@ -22,6 +22,7 @@ public class Usuario {
     public Usuario(String id, String password) {
         this.id = id;
         this.password = password;
+        this.notificaciones=new ArrayList();
     }
     public void addNotificacion(Notificacion noti){
         notificaciones.add(noti);
@@ -58,6 +59,11 @@ public class Usuario {
             if(user.id.equals(this.id))return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", password=" + password + '}';
     }
     
     

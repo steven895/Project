@@ -22,28 +22,27 @@ public class Notificacion {
     private String propiedad;
     private ArrayList<String> enlazados;
     private ArrayList<Etiqueta> etiquetas;
-    private boolean estado;
 
     public Notificacion(ArrayList<Sensor> sensores, String propiedad) {
         this.sensores = sensores;
         this.propiedad = propiedad;
         this.enlazados = new ArrayList();
         this.etiquetas = new ArrayList();
-        this.estado=true;
+
     }
 
     public void addDispositivo(String device) {
         enlazados.add(device);
     }
-    public String getNotificaciones(Date inicio, Date fin){
-        String cadena="";
-        for(Sensor s:sensores){
-            for(Observacion ob: s.getObservaciones()){
-                if(enlazados.isEmpty()){
-                    cadena+=generarNotificacion(ob,inicio,fin);
-                }
-                else if(enlazados.contains(s.getId())){
-                    cadena+=generarNotificacion(ob,inicio,fin);
+
+    public String getNotificaciones(Date inicio, Date fin) {
+        String cadena = "";
+        for (Sensor s : sensores) {
+            for (Observacion ob : s.getObservaciones()) {
+                if (enlazados.isEmpty()) {
+                    cadena += generarNotificacion(ob, inicio, fin);
+                } else if (enlazados.contains(s.getId())) {
+                    cadena += generarNotificacion(ob, inicio, fin);
                 }
             }
         }
@@ -52,7 +51,7 @@ public class Notificacion {
 
     public String generarNotificacion(Observacion ob, Date inicio, Date fin) {
         //String cadena = "Nombre etiqueta,nombre propiedad,valor propiedad,fecha\n"; PARA EL SISTEMA ESTE ENCABEZADO
-        String cadena="";
+        String cadena = "";
         for (Etiqueta et : etiquetas) {
             switch (propiedad) {
                 case "CO":
@@ -68,7 +67,7 @@ public class Notificacion {
                     boolean ligth = ob.isLigth();
                     if (et instanceof EtiquetaBool && ob.getFecha().after(inicio) && ob.getFecha().before(fin)) {
                         EtiquetaBool etb = (EtiquetaBool) et;
-                        if (etb.isValor()==ligth) {
+                        if (etb.isValor() == ligth) {
                             cadena += et.getName() + "," + propiedad + "," + ligth + "," + printDate(ob.getFecha()) + "\n";
                         }
                     }
@@ -86,7 +85,7 @@ public class Notificacion {
                     boolean motion = ob.isMotion();
                     if (et instanceof EtiquetaBool && ob.getFecha().after(inicio) && ob.getFecha().before(fin)) {
                         EtiquetaBool etb = (EtiquetaBool) et;
-                        if (etb.isValor()==motion) {
+                        if (etb.isValor() == motion) {
                             cadena += et.getName() + "," + propiedad + "," + motion + "," + printDate(ob.getFecha()) + "\n";
                         }
                     }
@@ -153,13 +152,18 @@ public class Notificacion {
             System.out.println("Ingrese limite superior: ");
             String strsup = sc2.nextLine();
             double superior = asignarValorNum(strsup);
-            EtiquetaNumerico et = new EtiquetaNumerico(inferior, superior, etiqueta);
-            if (et.hasintersection(etiquetas)) {
-                System.out.println("ADVERTENCIA: Los Rangos ingresados intersectan con otra etiqueta intentelo de nuevo");
-            } else {
-                veces--;
-                etiquetas.add(et);
-                System.out.println("|||   Ingreso de etiqueta exitoso   |||");
+            if (superior > inferior) {
+                EtiquetaNumerico et = new EtiquetaNumerico(inferior, superior, etiqueta);
+                if (et.hasintersection(etiquetas)) {
+                    System.out.println("ADVERTENCIA: Los Rangos ingresados intersectan con otra etiqueta intentelo de nuevo");
+                } else {
+                    veces--;
+                    etiquetas.add(et);
+                    System.out.println("|||   Ingreso de etiqueta exitoso   |||");
+                }
+            }
+            else{
+                System.out.println("ADVERTENCIA: el valor superior debe ser mayor al inferior intente de nuevo");
             }
         }
     }
@@ -210,8 +214,9 @@ public class Notificacion {
             return false;
         }
     }
-    private String printDate(Date fecha){
-        String cadena=fecha.getDate()+"/"+(fecha.getMonth()+1)+"/"+(fecha.getYear()+1900)+" "+fecha.getHours()+":"+fecha.getMinutes();
+
+    private String printDate(Date fecha) {
+        String cadena = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + (fecha.getYear() + 1900) + " " + fecha.getHours() + ":" + fecha.getMinutes();
         return cadena;
     }
 
@@ -223,14 +228,6 @@ public class Notificacion {
         this.enlazados = enlazados;
     }
 
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
     public String getPropiedad() {
         return propiedad;
     }
@@ -238,6 +235,5 @@ public class Notificacion {
     public void setPropiedad(String propiedad) {
         this.propiedad = propiedad;
     }
-    
 
 }

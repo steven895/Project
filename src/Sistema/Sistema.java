@@ -38,24 +38,28 @@ public class Sistema {
                     user = iniciarSesion();
                     break;
                 case 3:
-                    System.out.println("|||||     Elija notificacion que desea desactivar     |||||");
-                    System.out.println("1.Notificacion Propiedad observable");
-                    System.out.println("2.Notificacion Dispositivo");
-                    int op2 = 0;
-                    while (op2 <= 0 || op2 > 2) {
-                        Scanner sc2 = new Scanner(System.in);
-                        System.out.print("Seleccione un numero: ");
-                        op2 = sc2.nextInt();
-                    }
-                    switch (op2) {
-                        case 1:
-                            crearNotiXPropiedad(user);
-                            break;
-                        case 2:
-                            crearNotiXDispositivo(user);
-                            break;
-                        default:
-                            System.out.println("Lo ingreasdo no esta entre las opciones intente de nuevo");
+                    if (user == null) {
+                        System.out.println("ADVERTENCIA: Primero inicie sesion o cree una cuenta ");
+                    } else {
+                        System.out.println("|||||     Elija notificacion que desea desactivar     |||||");
+                        System.out.println("1.Notificacion Propiedad observable");
+                        System.out.println("2.Notificacion Dispositivo");
+                        int op2 = 0;
+                        while (op2 <= 0 || op2 > 2) {
+                            Scanner sc2 = new Scanner(System.in);
+                            System.out.print("Seleccione un numero: ");
+                            op2 = sc2.nextInt();
+                        }
+                        switch (op2) {
+                            case 1:
+                                crearNotiXPropiedad(user);
+                                break;
+                            case 2:
+                                crearNotiXDispositivo(user);
+                                break;
+                            default:
+                                System.out.println("Lo ingreasdo no esta entre las opciones intente de nuevo");
+                        }
                     }
                     break;
                 case 4:
@@ -88,6 +92,11 @@ public class Sistema {
         return op;
     }
 
+    /**
+     * Este metodo crea la cuenta del usuario
+     *
+     * @return Usuario
+     */
     public static Usuario crearCuenta() {
         System.out.println("|||||     Creacion de cuenta usuario     |||||");
         System.out.println("Ingrese id de usuario:");
@@ -105,12 +114,17 @@ public class Sistema {
         usuarios.add(user);
         String cadena = "";
         for (Usuario us : usuarios) {
-            cadena += us.getId() + "," + us.getPassword() + "n";
+            cadena += us.getId() + "," + us.getPassword() + "\n";
         }
         ManejoArchivo.EscribirArchivo("usuarios.txt", cadena);
         return user;
     }
 
+    /**
+     * Este metodo Inicia la sesion del usuario
+     *
+     * @return Usuario
+     */
     public static Usuario iniciarSesion() {
         System.out.println("|||||     Inicio de sesion     |||||");
         System.out.println("Ingrese id de usuario:");
@@ -123,15 +137,26 @@ public class Sistema {
             System.out.println("|||   Bienvenid@   |||");
             return user;
         }
+        System.out.println(usuarios.toString());
         System.out.println("ADVERTENCIA: este usuario no existe en la base de datos cree una cuenta");
         return null;
     }
 
+    /**
+     * este metodo carga el archivo de sensoresy devuelve la lisat de sensores
+     *
+     * @return ArrayList<Sensor>
+     */
     public static ArrayList<Sensor> cargarSensores() {
         ArrayList<Sensor> sensores = ManejoArchivo.LeeSensores("data.csv");
         return sensores;
     }
 
+    /**
+     * Este metodo asocia una propiedad al usuario para las notificaciones
+     *
+     * @param user
+     */
     public static void crearNotiXPropiedad(Usuario user) {
         if (user == null) {
             System.out.println("ADVERTENCIA: Primero inicie sesion o cree una cuenta ");
@@ -151,18 +176,27 @@ public class Sistema {
                 System.out.print("Seleccione un numero: ");
                 op = sc.nextInt();
             }
-            Notificacion noti = new Notificacion(sensores, propiedades[op - 1]);
-            noti.makeNotificacion();
-            user.addNotificacion(noti);
+            if (op <= propiedades.length && op >= 0) {
+                Notificacion noti = new Notificacion(sensores, propiedades[op - 1]);
+                noti.makeNotificacion();
+                user.addNotificacion(noti);
+            }
+            else{
+                System.out.println("ADVERTENCIA: lo ingresado no forma parte de las opciones");
+            }
         }
     }
 
+    /**
+     * Este metodo crea asocia un dispositivo al usuario para las notificaciones
+     *
+     * @param user
+     */
     public static void crearNotiXDispositivo(Usuario user) {
-
-        if (user.getNotificaciones().isEmpty()) {
-            System.out.println("ADVERTENCIA: Neceseti primero crear una notificacion de propiedad observable");
-        } else if (user == null) {
+        if (user == null) {
             System.out.println("ADVERTENCIA: Primero inicie sesion o cree una cuenta ");
+        } else if (user.getNotificaciones().isEmpty()) {
+            System.out.println("ADVERTENCIA: Neceseti primero crear una notificacion de propiedad observable");
         } else {
             System.out.println("|||||    Dispositivos Disponibles    |||||");
             for (Sensor s : sensores) {
@@ -174,27 +208,35 @@ public class Sistema {
                 System.out.print("Seleccione un numero: ");
                 op = sc.nextInt();
             }
-            boolean flag = true;
-            for (Notificacion noti : user.getNotificaciones()) {
-                if (!noti.getEnlazados().contains(sensores.get(op - 1).getId())) {
-                    noti.addDispositivo(sensores.get(op - 1).getId());
-                } else {
-                    flag = false;
+            if (op <= sensores.size() && op >= 0) {
+                boolean flag = true;
+                for (Notificacion noti : user.getNotificaciones()) {
+                    if (!noti.getEnlazados().contains(sensores.get(op - 1).getId())) {
+                        noti.addDispositivo(sensores.get(op - 1).getId());
+                    } else {
+                        flag = false;
+                    }
                 }
-            }
-            if (flag) {
-                System.out.println("|||   Dispositivo agregado con exito   |||");
-            } else {
-                System.out.println("ADVERTENCIA: Este dispositivo ya a sido agregado anteriormente intente de nuevo");
+                if (flag) {
+                    System.out.println("|||   Dispositivo agregado con exito   |||");
+                } else {
+                    System.out.println("ADVERTENCIA: Este dispositivo ya a sido agregado anteriormente intente de nuevo");
+                }
             }
         }
     }
 
+    /**
+     * Este metodo genera el documento csv de las notificaciones que el usuario
+     * tiene
+     *
+     * @param user Usuario
+     */
     public static void generarNotificaciones(Usuario user) {
-        if (user.getNotificaciones().isEmpty()) {
-            System.out.println("ADVERTENCIA: Neceseti primero crear una notificacion de propiedad observable");
-        } else if (user == null) {
+        if (user == null) {
             System.out.println("ADVERTENCIA: Primero inicie sesion o cree una cuenta ");
+        } else if (user.getNotificaciones().isEmpty()) {
+            System.out.println("ADVERTENCIA: Neceseti primero crear una notificacion de propiedad observable");
         } else {
             String cadena = "Nombre etiqueta,nombre propiedad,valor propiedad,fecha\n";
             Scanner sc = new Scanner(System.in);
@@ -207,9 +249,9 @@ public class Sistema {
             Date date2 = returnDate(f2);
             if (date.before(date2)) {
                 for (Notificacion noti : user.getNotificaciones()) {
-                    if (noti.isEstado()) {
-                        cadena += noti.getNotificaciones(date, date2);
-                    }
+                    //if (noti.isEstado()) {
+                    cadena += noti.getNotificaciones(date, date2);
+                    //}
                 }
                 //ESCRIBIR EN EL ARCHIVO
                 int rd = (int) ((Math.random() * 156) * (Math.random() * 10) + 1);
@@ -222,11 +264,16 @@ public class Sistema {
         }
     }
 
+    /**
+     * Este metodo desactiva las notificaciones del usuario
+     *
+     * @param user
+     */
     public static void desactivarNotificacion(Usuario user) {
-        if (user.getNotificaciones().isEmpty()) {
-            System.out.println("ADVERTENCIA: Neceseti primero crear una notificacion de propiedad observable");
-        } else if (user == null) {
+        if (user == null) {
             System.out.println("ADVERTENCIA: Primero inicie sesion o cree una cuenta ");
+        } else if (user.getNotificaciones().isEmpty()) {
+            System.out.println("ADVERTENCIA: Neceseti primero crear una notificacion de propiedad observable");
         } else {
             System.out.println("|||||     Elija notificacion que desea desactivar     |||||");
             System.out.println("1.Notificacion Propiedad observable");
@@ -246,26 +293,46 @@ public class Sistema {
                     Scanner sc2 = new Scanner(System.in);
                     System.out.print("Seleccione un numero: ");
                     op2 = sc2.nextInt();
-                    user.getNotificaciones().get(op2 - 1).setEstado(false);
-                    System.out.println("|||   Notificacion de propiedad observable desactivado con exito   |||");
+                    if (op2 <= user.getNotificaciones().size() && op2 >= 0) {
+                        user.getNotificaciones().remove(op2 - 1);
+                        System.out.println("|||   Notificacion de propiedad observable desactivado con exito   |||");
+                    } else {
+                        System.out.println("ADVERTENCIA:Lo ingresado no forma parte de las opciones intente de nuevo");
+                    }
                     break;
                 case 2:
-                    for (int i = 0; i < sensores.size(); i++) {
-                        System.out.println((i + 1) + "." + sensores.get(i));
+                    ArrayList<String> enlazados = user.getNotificaciones().get(0).getEnlazados();
+                    if (!enlazados.isEmpty()) {
+                        for (int i = 0; i < enlazados.size(); i++) {
+                            System.out.println((i + 1) + "." + enlazados);
+                        }
+                        int op3 = 0;
+                        Scanner sc3 = new Scanner(System.in);
+                        System.out.print("Seleccione un numero: ");
+                        op3 = sc3.nextInt();
+                        if (op3 <= enlazados.size() && op3 >= 0) {
+                            for (Notificacion noti : user.getNotificaciones()) {
+                                noti.getEnlazados().remove(enlazados.get(op3 - 1));
+                            }
+                            System.out.println("|||   Notificacion de dispositivo desactivado con exito   |||");
+
+                        } else {
+                            System.out.println("ADVERTENCIA:Lo ingresado no forma parte de las opciones intente de nuevo");
+                        }
+                    } else {
+                        System.out.println("ADVERTENCIA: No esta enlazado a ningun dispositivo");
                     }
-                    int op3 = 0;
-                    Scanner sc3 = new Scanner(System.in);
-                    System.out.print("Seleccione un numero: ");
-                    op3 = sc3.nextInt();
-                    for (Notificacion noti : user.getNotificaciones()) {
-                        noti.getEnlazados().remove(sensores.get(op3 - 1).getId());
-                    }
-                    System.out.println("|||   Notificacion de dispositivo desactivado con exito   |||");
                     break;
             }
         }
     }
 
+    /**
+     * Este metodo solo convierte un String a un Date
+     *
+     * @param f1 el String para convertirlo a la fecha
+     * @return Date
+     */
     private static Date returnDate(String f1) {
         String[] lista = f1.split("/");
         int dia = Integer.parseInt(lista[0]);

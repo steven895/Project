@@ -3,7 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/NotificacionSensores/src/Objetos/Etiqueta.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/Usuario.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/Sensor.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Recursos/ManejoArchivo.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/Notificacion.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Sistema/Sistema.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/Etiqueta.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/Observacion.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/EtiquetaBool.java</file>
+            <file>file:/C:/Users/USER/Downloads/NotificacionSensores/NotificacionSensores/src/Objetos/EtiquetaNumerico.java</file>
         </group>
     </open-files>
 </project-private>
