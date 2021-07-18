@@ -6,30 +6,26 @@
 package Objetos;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.stream.IntStream;
 
 /**
  *
  * @author Tago
  */
-public abstract class Notificacion {
-    private Usuario usuario;
+public class Notificacion {
+
     private ArrayList<Sensor> sensores;
-<<<<<<< HEAD
     private String propiedad;
     private ArrayList<String> enlazados;
     private ArrayList<Etiqueta> etiquetas;
-    private boolean estado;
-=======
->>>>>>> a650824f123749caafce42ca3ec6140d5631b5ca
 
-    public Notificacion(Usuario usuario, ArrayList<Sensor> sensores) {
-        this.usuario = usuario;
+    public Notificacion(ArrayList<Sensor> sensores, String propiedad) {
         this.sensores = sensores;
-<<<<<<< HEAD
         this.propiedad = propiedad;
         this.enlazados = new ArrayList();
         this.etiquetas = new ArrayList();
-        this.estado=true;
     }
 
     public void addDispositivo(String device) {
@@ -162,23 +158,54 @@ public abstract class Notificacion {
                 System.out.println("|||   Ingreso de etiqueta exitoso   |||");
             }
         }
-=======
->>>>>>> a650824f123749caafce42ca3ec6140d5631b5ca
     }
 
-    /**
-     *Este metodo abstracto notificara al usuario de cada observacion asignada
-     */
-    public abstract void notificarUsuario();
+    private void rangosBooleanos() {
+        System.out.println("Para esta categoria debe ingresar 2 etiquetas");
+        int veces = 2;
+        while (veces > 0) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Ingrese nombre de la etiqueta: ");
+            String etiqueta = sc.nextLine();
+            System.out.println("Ingrese el valor de la etiqueta (true/false): ");
+            String strval = sc.nextLine();
+            boolean valor = asignarValorBool(strval);
+            EtiquetaBool et = new EtiquetaBool(valor, etiqueta);
+            if (et.hasintersection(etiquetas)) {
+                System.out.println("ADVERTENCIA: El Valor ingresados intersectan con otra etiqueta intentelo de nuevo");
+            } else {
+                veces--;
+                etiquetas.add(et);
+                System.out.println("|||   Ingreso de etiqueta exitoso   |||");
+            }
 
-    public Usuario getUsuario() {
-        return usuario;
+        }
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    private double asignarValorNum(String valor) {
+        double limite = 0;
+        switch (valor) {
+            case "infinito":
+                limite = Double.POSITIVE_INFINITY;
+                break;
+            case "-infinito":
+                limite = Double.NEGATIVE_INFINITY;
+                break;
+            default:
+                limite = Double.parseDouble(valor);
+                break;
+        }
+        return limite;
     }
-<<<<<<< HEAD
+
+    private boolean asignarValorBool(String valor) {
+        String val = valor.toLowerCase();
+        if (val.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     private String printDate(Date fecha){
         String cadena=fecha.getDate()+"/"+(fecha.getMonth()+1)+"/"+(fecha.getYear()+1900)+" "+fecha.getHours()+":"+fecha.getMinutes();
         return cadena;
@@ -192,24 +219,4 @@ public abstract class Notificacion {
         this.enlazados = enlazados;
     }
 
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    public String getPropiedad() {
-        return propiedad;
-    }
-
-    public void setPropiedad(String propiedad) {
-        this.propiedad = propiedad;
-    }
-    
-
-=======
-    
->>>>>>> a650824f123749caafce42ca3ec6140d5631b5ca
 }

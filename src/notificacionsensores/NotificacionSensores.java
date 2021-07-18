@@ -38,6 +38,9 @@ public class NotificacionSensores {
             System.out.println(s);
         }
         System.out.println("Terminado****");
+        Date date2= new Date();
+        System.out.println(date2);
+        System.out.println(date2.after(date));
     }
     
 }

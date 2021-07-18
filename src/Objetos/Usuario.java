@@ -5,12 +5,8 @@
  */
 package Objetos;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
-import java.util.Objects;
 
-=======
->>>>>>> a650824f123749caafce42ca3ec6140d5631b5ca
 /**
  *
  * @author Tago
@@ -18,10 +14,22 @@ import java.util.Objects;
 public class Usuario {
     private String id;
     private String password;
+    private ArrayList<Notificacion> notificaciones;
 
     public Usuario(String id, String password) {
         this.id = id;
         this.password = password;
+    }
+    public void addNotificacion(Notificacion noti){
+        notificaciones.add(noti);
+    }
+
+    public ArrayList<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(ArrayList<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
     }
 
     public String getId() {
@@ -38,15 +46,6 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof Usuario){
-            Usuario user=(Usuario)obj;
-            if(user.id.equals(this.id))return true;
-        }
-        return false;
     }
     
     
