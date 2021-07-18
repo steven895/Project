@@ -25,6 +25,10 @@ public class Sensor {
         this.id = id;
         this.observaciones = new ArrayList();
     }
+    /**
+     * Este metodo agrega observaciones al sensor
+     * @param ob 
+     */
     public void addObservacion(Observacion ob){
         this.observaciones.add(ob);
     }

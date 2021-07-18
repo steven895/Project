@@ -41,7 +41,7 @@ public class Sistema {
                     if (user == null) {
                         System.out.println("ADVERTENCIA: Primero inicie sesion o cree una cuenta ");
                     } else {
-                        System.out.println("|||||     Elija notificacion que desea desactivar     |||||");
+                        System.out.println("|||||     Elija notificacion que desee elegir     |||||");
                         System.out.println("1.Notificacion Propiedad observable");
                         System.out.println("2.Notificacion Dispositivo");
                         int op2 = 0;
@@ -106,7 +106,13 @@ public class Sistema {
         String pass = sc.nextLine();
 
         Usuario user = new Usuario(id, pass);
-        if (usuarios.contains(user)) {
+        boolean flag = false;
+        for (Usuario us : usuarios) {
+            if (us.getId().equals(id)) {
+                flag = true;
+            }
+        }
+        if (flag) {
             System.out.println("ADVERTENCIA: Este usuario ya a sido creado anteriormente intente de nuevo");
             return null;
         }
@@ -180,8 +186,7 @@ public class Sistema {
                 Notificacion noti = new Notificacion(sensores, propiedades[op - 1]);
                 noti.makeNotificacion();
                 user.addNotificacion(noti);
-            }
-            else{
+            } else {
                 System.out.println("ADVERTENCIA: lo ingresado no forma parte de las opciones");
             }
         }
@@ -247,15 +252,17 @@ public class Sistema {
             System.out.println("Ingrese la fecha de fin (DIA/MES/ANIO): ");
             String f2 = sc.nextLine();
             Date date2 = returnDate(f2);
-            if (date.before(date2)) {
+            if(date==null || date2==null){
+                System.out.println("ADVERTENCIA: Formato incorrecto al ingresar la fecha intente de nuevo");
+            }
+            else if (date.before(date2)) {
+                System.out.println("CARGANDO ARCHIVO********");
                 for (Notificacion noti : user.getNotificaciones()) {
-                    //if (noti.isEstado()) {
                     cadena += noti.getNotificaciones(date, date2);
-                    //}
                 }
                 //ESCRIBIR EN EL ARCHIVO
                 int rd = (int) ((Math.random() * 156) * (Math.random() * 10) + 1);
-                String archivo = user.getId() + rd + ".csv";
+                String archivo = user.getId() + ".csv";
                 ManejoArchivo.EscribirArchivo(archivo, cadena);
                 System.out.println("Se a creado el archivo exitosamente");
             } else {
@@ -335,16 +342,19 @@ public class Sistema {
      */
     private static Date returnDate(String f1) {
         String[] lista = f1.split("/");
-        int dia = Integer.parseInt(lista[0]);
-        int mes = Integer.parseInt(lista[1]);
-        int anio = Integer.parseInt(lista[2]);
-        Date date = new Date();
-        date.setDate(dia);
-        date.setMonth(mes - 1);
-        date.setYear(anio - 1900);
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        return date;
+        if (lista.length == 3) {
+            int dia = Integer.parseInt(lista[0]);
+            int mes = Integer.parseInt(lista[1]);
+            int anio = Integer.parseInt(lista[2]);
+            Date date = new Date();
+            date.setDate(dia);
+            date.setMonth(mes - 1);
+            date.setYear(anio - 1900);
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            return date;
+        }
+        return null;
     }
 }

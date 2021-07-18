@@ -30,11 +30,19 @@ public class Notificacion {
         this.etiquetas = new ArrayList();
 
     }
-
+    /**
+     * Este metodo agrega un dispositivo a la notificacion
+     * @param device 
+     */
     public void addDispositivo(String device) {
         enlazados.add(device);
     }
-
+    /**
+     * Este metodo retorna todas la informacion de todas las etiquetas y observaciones de esta notificacion
+     * @param inicio fecha inicial
+     * @param fin fecha final
+     * @return String 
+     */
     public String getNotificaciones(Date inicio, Date fin) {
         String cadena = "";
         for (Sensor s : sensores) {
@@ -48,7 +56,13 @@ public class Notificacion {
         }
         return cadena;
     }
-
+    /**
+     * Este metodo genera la notificacion de solo una observacion
+     * @param ob Observacion
+     * @param inicio Date fecha inicio
+     * @param fin Date fevha fin
+     * @return String mensaje de notificacion de solo una observacion
+     */
     public String generarNotificacion(Observacion ob, Date inicio, Date fin) {
         //String cadena = "Nombre etiqueta,nombre propiedad,valor propiedad,fecha\n"; PARA EL SISTEMA ESTE ENCABEZADO
         String cadena = "";
@@ -113,7 +127,9 @@ public class Notificacion {
         }
         return cadena;
     }
-
+    /**
+     * Metodo para que el usuario se asocie a una propiedad para notificarlo
+     */
     public void makeNotificacion() {
         switch (propiedad) {
             case "CO":
@@ -136,7 +152,9 @@ public class Notificacion {
                 break;
         }
     }
-
+    /**
+     * Este metodo se encarga de los rango de cada etiqueta oara valores numericos
+     */
     private void rangosNumericos() {
         System.out.print("Elija el numero de etiquetas a crear: ");
         Scanner sc = new Scanner(System.in);
@@ -145,14 +163,17 @@ public class Notificacion {
             Scanner sc2 = new Scanner(System.in);
             System.out.println("Ingrese nombre de etiqueta: ");
             String etiqueta = sc2.nextLine();
-            System.out.println("Puede escoger los siguientes valores para los limites : infinito, -infinito, un valor numerico entero(3, 5, 100, -100)");
+            System.out.println("Puede escoger los siguientes valores para los limites : infinito, -infinito, un valor numerico entero(3, 5, 100, -100,....)");
             System.out.println("Ingrese limite inferior: ");
             String strinf = sc2.nextLine();
             double inferior = asignarValorNum(strinf);
             System.out.println("Ingrese limite superior: ");
             String strsup = sc2.nextLine();
             double superior = asignarValorNum(strsup);
-            if (superior > inferior) {
+            if(superior==Double.NaN || inferior==Double.NaN){
+                System.out.println("ADVERTENCIA: Los valores ingresados no son numeros ni opciones disponibles");
+            }
+            else if (superior > inferior) {
                 EtiquetaNumerico et = new EtiquetaNumerico(inferior, superior, etiqueta);
                 if (et.hasintersection(etiquetas)) {
                     System.out.println("ADVERTENCIA: Los Rangos ingresados intersectan con otra etiqueta intentelo de nuevo");
@@ -167,7 +188,9 @@ public class Notificacion {
             }
         }
     }
-
+    /**
+     * Este metodo se encarga de los rango de cada etiqueta oara valores booleanos
+     */
     private void rangosBooleanos() {
         System.out.println("Para esta categoria debe ingresar 2 etiquetas");
         int veces = 2;
@@ -200,12 +223,22 @@ public class Notificacion {
                 limite = Double.NEGATIVE_INFINITY;
                 break;
             default:
+                boolean verdad=valor.matches("[+-]?\\d*(\\.\\d+)?");
+                if(verdad){
                 limite = Double.parseDouble(valor);
+                }
+                else{
+                    return Double.NaN;
+                }
                 break;
         }
         return limite;
     }
-
+    /**
+     * Este metodo convirte un String a Booleano
+     * @param valor 
+     * @return boolean
+     */
     private boolean asignarValorBool(String valor) {
         String val = valor.toLowerCase();
         if (val.equals("true")) {
@@ -214,7 +247,11 @@ public class Notificacion {
             return false;
         }
     }
-
+    /**
+     * Este metodo se encarga de la conversion de un Date a String como mensaje
+     * @param fecha Date
+     * @return String
+     */
     private String printDate(Date fecha) {
         String cadena = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + (fecha.getYear() + 1900) + " " + fecha.getHours() + ":" + fecha.getMinutes();
         return cadena;

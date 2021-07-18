@@ -20,6 +20,11 @@ public class EtiquetaNumerico extends Etiqueta {
         this.inferior = inferior;
         this.superior = superior;
     }
+    /**
+     * Este metodo se encarga de decir si un valor se envuantra dentro del rango de la etiqueta
+     * @param valor double
+     * @return boolean
+     */
     public boolean contains(double valor){
         if(valor>=this.inferior && valor<=superior){
             return true;

@@ -56,7 +56,7 @@ public class Usuario {
     public boolean equals(Object obj) {
         if(obj instanceof Usuario){
             Usuario user=(Usuario)obj;
-            if(user.id.equals(this.id))return true;
+            if(user.id.equals(this.id) && user.password.equals(this.password))return true;
         }
         return false;
     }
