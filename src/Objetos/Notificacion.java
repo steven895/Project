@@ -13,6 +13,8 @@ import java.util.stream.IntStream;
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public class Notificacion {
 
@@ -20,12 +22,14 @@ public class Notificacion {
     private String propiedad;
     private ArrayList<String> enlazados;
     private ArrayList<Etiqueta> etiquetas;
+    private boolean estado;
 
     public Notificacion(ArrayList<Sensor> sensores, String propiedad) {
         this.sensores = sensores;
         this.propiedad = propiedad;
         this.enlazados = new ArrayList();
         this.etiquetas = new ArrayList();
+        this.estado=true;
     }
 
     public void addDispositivo(String device) {
@@ -218,5 +222,22 @@ public class Notificacion {
     public void setEnlazados(ArrayList<String> enlazados) {
         this.enlazados = enlazados;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getPropiedad() {
+        return propiedad;
+    }
+
+    public void setPropiedad(String propiedad) {
+        this.propiedad = propiedad;
+    }
+    
 
 }

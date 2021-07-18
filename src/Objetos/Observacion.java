@@ -10,6 +10,8 @@ import java.util.Date;
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public class Observacion {
     private double co;

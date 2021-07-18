@@ -12,6 +12,8 @@ import java.util.Objects;
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public class Sensor {
 

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public abstract class Etiqueta {
     private String name;

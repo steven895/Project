@@ -6,10 +6,13 @@
 package Objetos;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public class Usuario {
     private String id;
@@ -46,6 +49,15 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Usuario){
+            Usuario user=(Usuario)obj;
+            if(user.id.equals(this.id))return true;
+        }
+        return false;
     }
     
     

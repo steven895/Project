@@ -8,6 +8,8 @@ package Objetos;
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public class EtiquetaNumerico extends Etiqueta {
     private double inferior;

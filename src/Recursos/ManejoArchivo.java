@@ -7,6 +7,7 @@ package Recursos;
 
 import Objetos.Observacion;
 import Objetos.Sensor;
+import Objetos.Usuario;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,9 +19,11 @@ import java.util.ArrayList;
 /**
  *
  * @author Tago
+ * @author Tobar
+ * @author Rivera
  */
 public class ManejoArchivo {
-    public static ArrayList<Sensor> LeeFichero(String nombrearchivo) {
+    public static ArrayList<Sensor> LeeSensores(String nombrearchivo) {
         ArrayList<Sensor> sensores = new ArrayList<>();
         File archivo = null;
         FileReader fr = null;
@@ -76,11 +79,10 @@ public class ManejoArchivo {
 
         FileWriter fichero = null;
         BufferedWriter bw = null;
-        PrintWriter pw = null;
         try {
-            fichero = new FileWriter(nombreArchivo,true);
+            fichero = new FileWriter(nombreArchivo,false);
             bw = new BufferedWriter(fichero);
-            bw.write(linea+"\n");
+            bw.write(linea);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,5 +98,43 @@ public class ManejoArchivo {
                 e2.printStackTrace();
             }
         }
+    }
+    public static ArrayList<Usuario> obtenerUsuarios(String nombrearchivo){
+        ArrayList<Usuario> usuarios= new ArrayList<Usuario>();
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            // Apertura del fichero y creacion de BufferedReader para poder
+            // hacer una lectura comoda (disponer del metodo readLine()).
+            archivo = new File(nombrearchivo);
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+
+            // Lectura del fichero
+            String linea;
+            br.readLine();
+            while ((linea = br.readLine()) != null) {
+                String [] lista= linea.split(",");
+                Usuario us= new Usuario(lista[0],lista[1]);
+                usuarios.add(us);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // En el finally cerramos el fichero, para asegurarnos
+            // que se cierra tanto si todo va bien como si salta 
+            // una excepcion.
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return usuarios;
     }
 }
