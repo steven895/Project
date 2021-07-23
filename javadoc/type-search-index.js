@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"Objetos","l":"Etiqueta"},{"p":"Objetos","l":"EtiquetaBool"},{"p":"Objetos","l":"EtiquetaNumerico"},{"p":"Recursos","l":"ManejoArchivo"},{"p":"Objetos","l":"Notificacion"},{"p":"Objetos","l":"Observacion"},{"p":"Objetos","l":"Sensor"},{"p":"Sistema","l":"Sistema"},{"p":"Objetos","l":"Usuario"}]
